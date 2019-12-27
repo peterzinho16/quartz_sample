@@ -15,9 +15,6 @@ import org.springframework.stereotype.Component;
 import java.text.ParseException;
 import java.util.Date;
 
-/**
- * @author Chamith
- */
 @Slf4j
 @Component
 public class JobScheduleCreator {

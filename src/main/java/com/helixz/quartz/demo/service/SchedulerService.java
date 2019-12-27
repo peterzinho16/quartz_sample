@@ -2,9 +2,6 @@ package com.helixz.quartz.demo.service;
 
 import com.helixz.quartz.demo.enitiy.SchedulerJobInfo;
 
-/**
- * @author Chamith
- */
 public interface SchedulerService {
 
     void startAllSchedulers();

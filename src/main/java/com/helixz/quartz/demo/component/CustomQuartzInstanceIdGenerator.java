@@ -5,9 +5,6 @@ import org.quartz.spi.InstanceIdGenerator;
 
 import java.util.UUID;
 
-/**
- * @author Chamith
- */
 public class CustomQuartzInstanceIdGenerator implements InstanceIdGenerator {
 
     @Override

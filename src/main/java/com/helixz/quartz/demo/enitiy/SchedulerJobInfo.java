@@ -5,9 +5,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-/**
- * @author Chamith
- */
 @Getter
 @Setter
 @Entity

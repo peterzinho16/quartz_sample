@@ -7,9 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * @author Chamith
- */
 @Repository
 @Transactional
 public interface SchedulerRepository extends JpaRepository<SchedulerJobInfo, Long> {

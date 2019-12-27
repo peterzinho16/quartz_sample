@@ -1,8 +1,10 @@
 package com.helixz.quartz.demo.service.impl;
 
 import com.helixz.quartz.demo.component.JobScheduleCreator;
+import com.helixz.quartz.demo.enitiy.CronSchedulerJob;
 import com.helixz.quartz.demo.enitiy.SchedulerJobInfo;
 import com.helixz.quartz.demo.repository.SchedulerRepository;
+import com.helixz.quartz.demo.service.CronSchedulerJobService;
 import com.helixz.quartz.demo.service.SchedulerService;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
@@ -18,9 +20,6 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
-/**
- * @author Chamith
- */
 @Slf4j
 @Transactional
 @Service
@@ -38,9 +37,12 @@ public class SchedulerServiceImpl implements SchedulerService {
     @Autowired
     private JobScheduleCreator scheduleCreator;
 
+    @Autowired
+    private CronSchedulerJobService cronSchedulerJobService;
+
     @Override
     public void startAllSchedulers() {
-        List<SchedulerJobInfo> jobInfoList = schedulerRepository.findAll();
+        List<CronSchedulerJob> jobInfoList = cronSchedulerJobService.findAll();
         if (!jobInfoList.isEmpty()) {
             Scheduler scheduler = schedulerFactoryBean.getScheduler();
             jobInfoList.forEach(jobInfo -> {
@@ -54,12 +56,12 @@ public class SchedulerServiceImpl implements SchedulerService {
                         jobDetail = scheduleCreator.createJob((Class<? extends QuartzJobBean>) Class.forName(jobInfo.getJobClass()),
                                 false, context, jobInfo.getJobName(), jobInfo.getJobGroup());
 
-                        if (jobInfo.getCronJob() && CronExpression.isValidExpression(jobInfo.getCronExpression())) {
+                        if (true && CronExpression.isValidExpression(jobInfo.getCronExpression())) {
                             trigger = scheduleCreator.createCronTrigger(jobInfo.getJobName(), new Date(),
                                     jobInfo.getCronExpression(), SimpleTrigger.MISFIRE_INSTRUCTION_RESCHEDULE_NOW_WITH_EXISTING_REPEAT_COUNT);
-                        } else {
+                        } else {//ARBITRARY
                             trigger = scheduleCreator.createSimpleTrigger(jobInfo.getJobName(), new Date(),
-                                    jobInfo.getRepeatTime(), SimpleTrigger.MISFIRE_INSTRUCTION_FIRE_NOW);
+                                    Long.valueOf(36000), SimpleTrigger.MISFIRE_INSTRUCTION_FIRE_NOW);
                         }
 
                         scheduler.scheduleJob(jobDetail, trigger);
